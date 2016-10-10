@@ -9,7 +9,8 @@ require 'shipstation/carrier'
 require 'shipstation/store'
 require 'shipstation/warehouse'
 require 'shipstation/product'
-
+require 'rest-client'
+require 'json'
 module Shipstation
     API_BASE = "https://ssapi.shipstation.com/"
 
@@ -49,7 +50,11 @@ module Shipstation
                 payload: params,
                 headers: { :accept => :json, content_type: :json }
             }).execute do |response, request, result|
-                JSON.parse(response.to_str)
+                begin
+                    JSON.parse(response.to_str)
+                rescue JSON::ParserError => e
+                    return e
+                end
             end
         end
 
