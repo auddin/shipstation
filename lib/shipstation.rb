@@ -34,7 +34,12 @@ module Shipstation
             )
         end
         attr_writer :password
-
+        def store_id
+            defined? @store_id and @store_id or raise(
+              ConfigurationError, "Shipstation store_id not configured"
+            )
+        end
+        attr_writer :store_id
         def request method, resource, params={}
             defined? method or raise(
                 ArgumentError, "Request method has not been specified"
